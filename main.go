@@ -5,6 +5,8 @@ import (
 	"log"
 )
 
+type JSONObject map[string]interface{}
+
 type Object struct {
 	Name   string `json:"name"`
 	Value  int    `json:"value"`
@@ -26,12 +28,12 @@ func main() {
 
 	bytes, _ := json.Marshal(obj)
 
-	var objmap map[string]interface{}
+	var objmap JSONObject
 
 	if err := json.Unmarshal(bytes, &objmap); err != nil {
 		log.Fatal(err)
 	}
 
 	log.Println(objmap)
-	log.Println(objmap["wallet"].(map[string]interface{})["id"])
+	log.Println(objmap["wallet"].(JSONObject)["id"])
 }
