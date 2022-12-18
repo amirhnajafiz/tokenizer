@@ -3,7 +3,8 @@ package main
 import (
 	"encoding/json"
 	"log"
-	"reflect"
+
+	"github.com/amirhnajafiz/explorer/internal"
 )
 
 type Object struct {
@@ -27,13 +28,10 @@ func main() {
 
 	bytes, _ := json.Marshal(obj)
 
-	var objmap map[string]interface{}
-
-	if err := json.Unmarshal(bytes, &objmap); err != nil {
-		log.Fatal(err)
+	objMap, err := internal.Parse(bytes)
+	if err != nil {
+		panic(err)
 	}
 
-	log.Println(objmap)
-	log.Println(objmap["wallet"].(map[string]interface{})["id"])
-	log.Println(reflect.TypeOf(objmap["wallet"]).String() == "map[string]interface {}")
+	log.Println(objMap)
 }
