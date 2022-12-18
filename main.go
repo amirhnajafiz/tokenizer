@@ -3,9 +3,8 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"reflect"
 )
-
-type JSONObject map[string]interface{}
 
 type Object struct {
 	Name   string `json:"name"`
@@ -28,12 +27,13 @@ func main() {
 
 	bytes, _ := json.Marshal(obj)
 
-	var objmap JSONObject
+	var objmap map[string]interface{}
 
 	if err := json.Unmarshal(bytes, &objmap); err != nil {
 		log.Fatal(err)
 	}
 
 	log.Println(objmap)
-	log.Println(objmap["wallet"].(JSONObject)["id"])
+	log.Println(objmap["wallet"].(map[string]interface{})["id"])
+	log.Println(reflect.TypeOf(objmap["wallet"]).String() == "map[string]interface {}")
 }
