@@ -32,52 +32,63 @@ func ParseJsonArray(bytes []byte) ([]JsonObject, error) {
 }
 
 // parseObject gets a map interface and converts it to json object.
-func parseObject(obj map[string]interface{}) (JsonObject, error) {
-	jObj := newJsonObject("", nil)
+func parseObject(object map[string]interface{}) (JsonObject, error) {
+	// create a new json object
+	tempJsonObject := newJsonObject("", jsonObjectType, nonSingleTypeObject, nil)
 
-	for key := range obj {
-		if reflect.TypeOf(obj[key]).String() == "map[string]interface {}" {
-			tmp, err := parseObject(obj[key].(map[string]interface{}))
+	// get the object keys
+	var keys []string
+	for key := range object {
+		keys = append(keys, key)
+	}
+
+	// iterate over objects
+	for _, key := range keys {
+		// check the item type
+		switch reflect.TypeOf(object[key]).String() {
+		case mapInterfaceType:
+			// another json object that we need to parse
+			tmp, err := parseObject(object[key].(map[string]interface{}))
 			if err != nil {
-				return JsonObject{}, err
+				return JsonObject{}, ErrJsonObject
 			}
-
-			jObj.items[key] = tmp
-		} else if reflect.TypeOf(obj[key]).String() == "[]interface {}" {
-			tmp, err := parseArray(obj[key].([]interface{}))
+			tempJsonObject.items[key] = tmp
+		case interfaceArrayType:
+			// an array of interfaces
+			tmp, err := parseArray(object[key].([]interface{}))
 			if err != nil {
-				return JsonObject{}, err
+				return JsonObject{}, ErrArrayStructure
 			}
-
-			jTmp := newJsonObject("", nil)
-			jTmp.jType = "array"
-			jTmp.values = tmp
-
-			jObj.items[key] = jTmp
-		} else {
-			jObj.items[key] = newJsonObject(key, obj[key])
+			tempJsonObject.items[key] = newJsonObject("", jsonArrayType, nonSingleTypeObject, tmp)
+		default:
+			// any global value which we don't care about
+			tempJsonObject.items[key] = newJsonObject(key, globalType, singleTypeObject, object[key])
 		}
 	}
 
-	return jObj, nil
+	return tempJsonObject, nil
 }
 
 // parseArray gets a collection of interfaces and converts it to
 // a collection of json objects.
 func parseArray(obj []interface{}) ([]JsonObject, error) {
-	var items []JsonObject
+	// create a new collection of json objects
+	var jsonObjectsArray []JsonObject
 
+	// iterate over objects
 	for _, item := range obj {
-		if reflect.TypeOf(item).String() == "map[string]interface {}" {
+		// check to see if we need to parse a json object or not
+		if reflect.TypeOf(item).String() == mapInterfaceType {
 			tmp, err := parseObject(item.(map[string]interface{}))
 			if err != nil {
 				return nil, err
 			}
-			items = append(items, tmp)
+			jsonObjectsArray = append(jsonObjectsArray, tmp)
 		} else {
-			items = append(items, newJsonObject("", item))
+			tmp := newJsonObject("", globalType, nonSingleTypeObject, item)
+			jsonObjectsArray = append(jsonObjectsArray, tmp)
 		}
 	}
 
-	return items, nil
+	return jsonObjectsArray, nil
 }

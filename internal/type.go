@@ -10,3 +10,9 @@ const (
 	jsonObjectType
 	jsonArrayType
 )
+
+const (
+	// interface types that we use
+	mapInterfaceType   = "map[string]interface {}"
+	interfaceArrayType = "[]interface {}"
+)
