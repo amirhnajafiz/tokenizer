@@ -3,20 +3,22 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/amirhnajafiz/explorer"
 )
 
 type Object struct {
-	Name     string  `json:"name"`
-	Value    int     `json:"value"`
-	Wallet   Inner   `json:"wallet"`
-	Wallets  []Inner `json:"wallets"`
-	Defaults []int   `json:"defaults"`
+	Name     string    `json:"name"`
+	Value    int       `json:"value"`
+	Wallet   Inner     `json:"wallet"`
+	Wallets  []Inner   `json:"wallets"`
+	Defaults []int     `json:"defaults"`
+	Created  time.Time `json:"created"`
 }
 
 type Inner struct {
-	Id   int        `json:"id"`
+	Id   int32      `json:"id"`
 	Bank SuperInner `json:"bank"`
 }
 
@@ -46,6 +48,7 @@ func main() {
 			},
 		},
 		Defaults: []int{1, 2, 3},
+		Created:  time.Now(),
 	}
 
 	bytes, _ := json.Marshal(obj)

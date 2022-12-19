@@ -2,6 +2,7 @@ package explorer
 
 import (
 	"fmt"
+	"reflect"
 )
 
 // generateTabsString puts tabs next to string.
@@ -16,9 +17,16 @@ func generateTabsString(number int) string {
 }
 
 // renderSingleItem render a single key value set.
-func renderSingleItem(key string, value interface{}, numberOfTabs int) string {
+func renderSingleItem(key string, value interface{}, numberOfTabs int, flag ...bool) string {
 	// set the value
 	tmp := fmt.Sprintf("\"%v\"", value)
+
+	// check the flags
+	if len(flag) > 0 {
+		if flag[0] {
+			tmp = fmt.Sprintf("\"%v\"", reflect.TypeOf(value))
+		}
+	}
 
 	// check for key existence
 	if key != "" {
@@ -100,7 +108,7 @@ func renderObject(object JsonObject, numberOfTabs, tabUnit, control int, schema 
 				temp = fmt.Sprintf(
 					"%s\n%s",
 					temp,
-					renderSingleItem("", innerObj, numberOfTabs+2*tabUnit),
+					renderSingleItem("", innerObj, numberOfTabs+2*tabUnit, schema),
 				)
 
 				// add ',' to the end
@@ -143,10 +151,12 @@ func renderObject(object JsonObject, numberOfTabs, tabUnit, control int, schema 
 	}
 }
 
+// Pretty returns a pretty json string.
 func (j JsonObject) Pretty(space int) string {
 	return renderObject(j, space, space, baseObject, false)
 }
 
+// Schema returns json object keys and types.
 func (j JsonObject) Schema() string {
 	return renderObject(j, 2, 2, baseObject, true)
 }
