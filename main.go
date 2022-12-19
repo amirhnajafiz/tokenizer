@@ -33,5 +33,5 @@ func main() {
 		panic(err)
 	}
 
-	log.Println(objMap)
+	log.Println(objMap.Get("wallet").Value())
 }
