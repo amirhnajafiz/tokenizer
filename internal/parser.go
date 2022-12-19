@@ -5,29 +5,28 @@ import (
 	"reflect"
 )
 
-// Parse method gets an array of bytes and returns
-// a json object that is one n-d array.
-func Parse(bytes []byte) (interface{}, error) {
-	var (
-		jObj map[string]interface{}
-		jArr []map[string]interface{}
-	)
+// ParseObject parses a json object into golang map.
+func ParseObject(bytes []byte) (map[string]interface{}, error) {
+	var jObj map[string]interface{}
 
 	// unmarshalling json into variables
 	if err := json.Unmarshal(bytes, &jObj); err != nil {
-		if err = json.Unmarshal(bytes, &jArr); err != nil {
-			return nil, ErrJsonObject
-		}
-	}
-
-	// check the variables
-	if jObj != nil {
-		return parseObj(jObj)
-	} else if jArr != nil {
-		return parseArray(jArr)
-	} else {
 		return nil, ErrJsonObject
 	}
+
+	return parseObj(jObj)
+}
+
+// ParseArray parses a collection of json objects into golang map.
+func ParseArray(bytes []byte) ([]map[string]interface{}, error) {
+	var jArr []map[string]interface{}
+
+	// unmarshalling json into variables
+	if err := json.Unmarshal(bytes, &jArr); err != nil {
+		return nil, ErrJsonObject
+	}
+
+	return parseArr(jArr)
 }
 
 func parseObj(obj map[string]interface{}) (map[string]interface{}, error) {
@@ -40,7 +39,7 @@ func parseObj(obj map[string]interface{}) (map[string]interface{}, error) {
 
 			obj[key] = tmp
 		} else if reflect.TypeOf(obj[key]).String() == "[]map[string]interface {}" {
-			tmp, err := parseArray(obj[key].([]map[string]interface{}))
+			tmp, err := parseArr(obj[key].([]map[string]interface{}))
 			if err != nil {
 				return nil, err
 			}
@@ -52,7 +51,7 @@ func parseObj(obj map[string]interface{}) (map[string]interface{}, error) {
 	return obj, nil
 }
 
-func parseArray(obj []map[string]interface{}) ([]map[string]interface{}, error) {
+func parseArr(obj []map[string]interface{}) ([]map[string]interface{}, error) {
 	items := make([]map[string]interface{}, len(obj))
 	for _, item := range obj {
 		tmp, err := parseObj(item)
