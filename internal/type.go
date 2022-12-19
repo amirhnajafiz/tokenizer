@@ -83,7 +83,11 @@ func (j JsonObject) buildPretty(index int, mainKey string) string {
 	limit := len(j.items)
 
 	if limit == 0 {
-		return fmt.Sprintf("\"%s\": \"%v\"", j.key, j.value)
+		if j.key != "" {
+			return fmt.Sprintf("\"%s\": \"%v\"", j.key, j.value)
+		} else {
+			return fmt.Sprintf("%v", j.value)
+		}
 	}
 
 	tmp := ""

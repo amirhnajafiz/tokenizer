@@ -69,9 +69,9 @@ func parseArr(obj []interface{}) ([]JsonObject, error) {
 				return nil, err
 			}
 			items = append(items, tmp)
+		} else {
+			items = append(items, newJsonObject("", item))
 		}
-
-		items = append(items, newJsonObject("", item))
 	}
 
 	return items, nil
