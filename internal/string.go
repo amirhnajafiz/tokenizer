@@ -15,7 +15,7 @@ func generateTabsString(number int) string {
 	return tmp
 }
 
-// render a single key value set.
+// renderSingleItem render a single key value set.
 func renderSingleItem(key string, value interface{}, numberOfTabs int) string {
 	// set the value
 	tmp := fmt.Sprintf("\"%v\"", value)
@@ -57,13 +57,22 @@ func renderObject(object JsonObject, numberOfTabs, tabUnit int, start bool) stri
 			)
 		} else if obj.valueType == jsonArrayType {
 			temp := ""
+			numb := len(obj.value.([]JsonObject))
 
+			in := 1
 			for _, innerObj := range obj.value.([]JsonObject) {
 				temp = fmt.Sprintf(
 					"%s\n%s",
 					temp,
 					renderObject(innerObj, numberOfTabs+2*tabUnit, tabUnit, false),
 				)
+
+				// add ',' to the end
+				if in != numb {
+					temp = temp + ","
+				}
+
+				in++
 			}
 
 			tmp = fmt.Sprintf("%s\n%s\"%s\": [%s%s\n%s]",
@@ -76,13 +85,22 @@ func renderObject(object JsonObject, numberOfTabs, tabUnit int, start bool) stri
 			)
 		} else if obj.valueType == globalArrayType {
 			temp := ""
+			numb := len(obj.value.([]interface{}))
 
+			in := 1
 			for _, innerObj := range obj.value.([]interface{}) {
 				temp = fmt.Sprintf(
 					"%s\n%s",
 					temp,
 					renderSingleItem("", innerObj, numberOfTabs+2*tabUnit),
 				)
+
+				// add ',' to the end
+				if in != numb {
+					temp = temp + ","
+				}
+
+				in++
 			}
 
 			tmp = fmt.Sprintf("%s\n%s\"%s\": [%s%s\n%s]",
