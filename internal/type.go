@@ -50,8 +50,21 @@ func (j JsonObject) Value() interface{} {
 }
 
 // Pretty returns one pretty json string.
-func (j JsonObject) Pretty() string {
-	return fmt.Sprintf("{\t%s\n}", j.buildPretty(1, ""))
+func (j JsonObject) Pretty(index ...int) string {
+	var i int
+
+	if len(index) == 0 {
+		i = 1
+	} else {
+		i = index[0]
+	}
+
+	tabs := ""
+	for tab := 0; tab < i-1; tab++ {
+		tabs = fmt.Sprintf("\t%s", tabs)
+	}
+
+	return fmt.Sprintf("{\t%s\n%s}", j.buildPretty(i, ""), tabs)
 }
 
 // buildPretty builds json string.
@@ -64,12 +77,17 @@ func (j JsonObject) buildPretty(index int, mainKey string) string {
 
 		tmp := ""
 
+		tabs := ""
+		for tab := 0; tab < index-1; tab++ {
+			tabs = fmt.Sprintf("\t%s", tabs)
+		}
+
 		i := 0
 		for _, value := range j.values {
-			resp := value.Pretty()
+			resp := value.Pretty(index + i - 1)
 
 			if i != 0 {
-				tmp = fmt.Sprintf("%s,\n%s", tmp, resp)
+				tmp = fmt.Sprintf("%s,\n%s%s", tmp, tabs, resp)
 			} else {
 				tmp = resp
 			}
@@ -77,7 +95,12 @@ func (j JsonObject) buildPretty(index int, mainKey string) string {
 			i++
 		}
 
-		return fmt.Sprintf("\"%s\":\n[\n\t%s\n]", mainKey, tmp)
+		return fmt.Sprintf("\"%s\":\n%s[\n%s\t%s\n%s]", mainKey, tabs, tabs, tmp, tabs)
+	}
+
+	tabs := ""
+	for tab := 0; tab < index; tab++ {
+		tabs = fmt.Sprintf("\t%s", tabs)
 	}
 
 	limit := len(j.items)
@@ -86,7 +109,7 @@ func (j JsonObject) buildPretty(index int, mainKey string) string {
 		if j.key != "" {
 			return fmt.Sprintf("\"%s\": \"%v\"", j.key, j.value)
 		} else {
-			return fmt.Sprintf("%v", j.value)
+			return fmt.Sprintf("\n%s\t%v", tabs, j.value)
 		}
 	}
 
