@@ -1,11 +1,28 @@
 package internal
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // JsonObject is a single json structure.
 type JsonObject struct {
 	items map[string]JsonObject
 	value interface{}
+}
+
+// newJsonObject generates a new json object.
+func newJsonObject(value interface{}) JsonObject {
+	// create a map variable with nil value
+	var items map[string]JsonObject
+
+	// if object had no value then it must contain a map
+	if value == nil {
+		items = make(map[string]JsonObject)
+	}
+
+	return JsonObject{
+		items: items,
+	}
 }
 
 // Get returns an interface.
