@@ -2,6 +2,7 @@ package explorer
 
 import (
 	"fmt"
+	"reflect"
 )
 
 // JsonObject is a single json structure.
@@ -34,6 +35,11 @@ func (j JsonObject) Get(key string) JsonObject {
 	} else {
 		return item
 	}
+}
+
+// Type returns object value type.
+func (j JsonObject) Type() reflect.Type {
+	return reflect.TypeOf(j.value)
 }
 
 // Value returns json object value.
