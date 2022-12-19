@@ -3,13 +3,15 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+
 	"github.com/amirhnajafiz/explorer/internal"
 )
 
 type Object struct {
-	Name   string `json:"name"`
-	Value  int    `json:"value"`
-	Wallet Inner  `json:"wallet"`
+	Name     string  `json:"name"`
+	Value    int     `json:"value"`
+	Wallets  []Inner `json:"wallets"`
+	Defaults []int   `json:"defaults"`
 }
 
 type Inner struct {
@@ -25,12 +27,21 @@ func main() {
 	obj := &Object{
 		Name:  "amir",
 		Value: 20,
-		Wallet: Inner{
-			Id: 502,
-			Bank: SuperInner{
-				Name: "asp",
+		Wallets: []Inner{
+			{
+				Id: 20,
+				Bank: SuperInner{
+					"asp",
+				},
+			},
+			{
+				Id: 22,
+				Bank: SuperInner{
+					"asp",
+				},
 			},
 		},
+		Defaults: []int{1, 2, 3},
 	}
 
 	bytes, _ := json.Marshal(obj)

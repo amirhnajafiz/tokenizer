@@ -18,8 +18,8 @@ func ParseObject(bytes []byte) (JsonObject, error) {
 }
 
 // ParseArray parses a collection of json objects into golang map.
-func ParseArray(bytes []byte) (JsonArray, error) {
-	var jArr []map[string]interface{}
+func ParseArray(bytes []byte) ([]JsonObject, error) {
+	var jArr []interface{}
 
 	// unmarshalling json into variables
 	if err := json.Unmarshal(bytes, &jArr); err != nil {
@@ -40,13 +40,17 @@ func parseObj(obj map[string]interface{}) (JsonObject, error) {
 			}
 
 			jObj.items[key] = tmp
-		} else if reflect.TypeOf(obj[key]).String() == "[]map[string]interface {}" {
-			_, err := parseArr(obj[key].([]map[string]interface{}))
+		} else if reflect.TypeOf(obj[key]).String() == "[]interface {}" {
+			tmp, err := parseArr(obj[key].([]interface{}))
 			if err != nil {
 				return JsonObject{}, err
 			}
 
-			jObj.items[key] = JsonObject{}
+			jTmp := newJsonObject("", nil)
+			jTmp.jType = "array"
+			jTmp.values = tmp
+
+			jObj.items[key] = jTmp
 		} else {
 			jObj.items[key] = newJsonObject(key, obj[key])
 		}
@@ -55,16 +59,19 @@ func parseObj(obj map[string]interface{}) (JsonObject, error) {
 	return jObj, nil
 }
 
-func parseArr(obj []map[string]interface{}) (JsonArray, error) {
-	var items JsonArray
+func parseArr(obj []interface{}) ([]JsonObject, error) {
+	var items []JsonObject
 
 	for _, item := range obj {
-		tmp, err := parseObj(item)
-		if err != nil {
-			return nil, err
+		if reflect.TypeOf(item).String() == "map[string]interface {}" {
+			tmp, err := parseObj(item.(map[string]interface{}))
+			if err != nil {
+				return nil, err
+			}
+			items = append(items, tmp)
 		}
 
-		items = append(items, tmp)
+		items = append(items, newJsonObject("", item))
 	}
 
 	return items, nil
