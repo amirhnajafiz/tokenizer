@@ -46,10 +46,10 @@ func main() {
 
 	bytes, _ := json.Marshal(obj)
 
-	objMap, err := internal.ParseObject(bytes)
+	objMap, err := internal.ParseJsonObject(bytes)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(objMap.Pretty())
+	fmt.Println(objMap.Get("wallets").Value().([]internal.JsonObject)[0])
 }

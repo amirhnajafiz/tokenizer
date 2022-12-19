@@ -12,20 +12,17 @@ type JsonObject struct {
 	valueType int
 	// value which is generic
 	value interface{}
-	// object type
-	objectType int
 	// object items which is a map
 	items map[string]JsonObject
 }
 
 // newJsonObject generates a new base json object structure.
-func newJsonObject(key string, valueType, objectType int, value interface{}) JsonObject {
+func newJsonObject(key string, valueType int, value interface{}) JsonObject {
 	return JsonObject{
-		key:        key,
-		valueType:  valueType,
-		value:      value,
-		objectType: objectType,
-		items:      make(map[string]JsonObject),
+		key:       key,
+		valueType: valueType,
+		value:     value,
+		items:     make(map[string]JsonObject),
 	}
 }
 
@@ -41,7 +38,7 @@ func (j JsonObject) Get(key string) JsonObject {
 
 // Value returns json object value.
 func (j JsonObject) Value() interface{} {
-	if j.objectType == singleTypeObject {
+	if j.valueType == jsonArrayType || j.valueType == globalType {
 		return j.value
 	}
 
