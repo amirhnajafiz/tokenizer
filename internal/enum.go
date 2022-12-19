@@ -13,3 +13,10 @@ const (
 	mapInterfaceType   = "map[string]interface {}"
 	interfaceArrayType = "[]interface {}"
 )
+
+const (
+	// generate string enums
+	baseObject = iota + 1
+	innerObject
+	arrayObject
+)

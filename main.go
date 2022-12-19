@@ -56,5 +56,5 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println(objMap.Pretty(2))
+	fmt.Println(objMap.Pretty(4))
 }

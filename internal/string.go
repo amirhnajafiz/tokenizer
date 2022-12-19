@@ -29,7 +29,7 @@ func renderSingleItem(key string, value interface{}, numberOfTabs int) string {
 }
 
 // renderObject converts a json object to string.
-func renderObject(object JsonObject, numberOfTabs, tabUnit int, start bool) string {
+func renderObject(object JsonObject, numberOfTabs, tabUnit, control int) string {
 	var (
 		// tmp stores the result of printing
 		tmp string
@@ -53,7 +53,7 @@ func renderObject(object JsonObject, numberOfTabs, tabUnit int, start bool) stri
 				tmp,
 				tabsNext,
 				key,
-				renderObject(obj, numberOfTabs+tabUnit, tabUnit, false),
+				renderObject(obj, numberOfTabs+tabUnit, tabUnit, innerObject),
 			)
 		} else if obj.valueType == jsonArrayType {
 			temp := ""
@@ -64,7 +64,7 @@ func renderObject(object JsonObject, numberOfTabs, tabUnit int, start bool) stri
 				temp = fmt.Sprintf(
 					"%s\n%s",
 					temp,
-					renderObject(innerObj, numberOfTabs+2*tabUnit, tabUnit, false),
+					renderObject(innerObj, numberOfTabs+2*tabUnit, tabUnit, arrayObject),
 				)
 
 				// add ',' to the end
@@ -123,13 +123,18 @@ func renderObject(object JsonObject, numberOfTabs, tabUnit int, start bool) stri
 	}
 
 	// things are different for first object and inner ones
-	if start {
+	switch control {
+	case baseObject:
 		return fmt.Sprintf("{%s\n}", tmp)
-	} else {
+	case innerObject:
+		return fmt.Sprintf("{%s\n%s}", tmp, tabsNow)
+	case arrayObject:
 		return fmt.Sprintf("%s{%s\n%s}", tabsNow, tmp, tabsNow)
+	default:
+		return ""
 	}
 }
 
 func (j JsonObject) Pretty(space int) string {
-	return renderObject(j, space, space, true)
+	return renderObject(j, space, space, baseObject)
 }
