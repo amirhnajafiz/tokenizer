@@ -2,8 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"log"
-
+	"fmt"
 	"github.com/amirhnajafiz/explorer/internal"
 )
 
@@ -33,5 +32,5 @@ func main() {
 		panic(err)
 	}
 
-	log.Println(objMap.Get("wallet").Value())
+	fmt.Println(objMap.Pretty())
 }

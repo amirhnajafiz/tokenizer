@@ -6,13 +6,15 @@ import (
 
 // JsonObject is a single json structure.
 type JsonObject struct {
+	key   string
 	items map[string]JsonObject
 	value interface{}
 }
 
 // newJsonObject generates a new json object.
-func newJsonObject(value interface{}) JsonObject {
+func newJsonObject(key string, value interface{}) JsonObject {
 	return JsonObject{
+		key:   key,
 		items: make(map[string]JsonObject),
 		value: value,
 	}
@@ -39,6 +41,39 @@ func (j JsonObject) Value() interface{} {
 	}
 
 	return j.items
+}
+
+// Pretty returns one pretty json string.
+func (j JsonObject) Pretty() string {
+	return j.buildPretty(0)
+}
+
+// buildPretty builds json string.
+func (j JsonObject) buildPretty(index int) string {
+	tmp := ""
+	limit := len(j.items)
+
+	if limit == 0 {
+		return fmt.Sprintf("%s: %s", j.key, j.value)
+	}
+
+	i := 0
+	for key := range j.items {
+		res := j.items[key].buildPretty(index + 1)
+
+		for tab := 0; tab < index; tab++ {
+			res = fmt.Sprintf("\t%s", res)
+		}
+
+		if i+1 != limit {
+			res = res + ","
+		}
+
+		tmp = fmt.Sprintf("%s\n%s", tmp, res)
+		i++
+	}
+
+	return fmt.Sprintf("{\n\t%s\n}", tmp)
 }
 
 // JsonArray is a collection of json objects.

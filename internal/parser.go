@@ -30,7 +30,7 @@ func ParseArray(bytes []byte) (JsonArray, error) {
 }
 
 func parseObj(obj map[string]interface{}) (JsonObject, error) {
-	jObj := newJsonObject(nil)
+	jObj := newJsonObject("", nil)
 
 	for key := range obj {
 		if reflect.TypeOf(obj[key]).String() == "map[string]interface {}" {
@@ -48,7 +48,7 @@ func parseObj(obj map[string]interface{}) (JsonObject, error) {
 
 			jObj.items[key] = JsonObject{}
 		} else {
-			jObj.items[key] = newJsonObject(obj[key])
+			jObj.items[key] = newJsonObject(key, obj[key])
 		}
 	}
 
