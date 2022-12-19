@@ -10,16 +10,16 @@ import (
 
 // creating a fake struct
 type obj struct {
-	name  string `json:"name"`
-	value int    `json:"value"`
+	Name  string `json:"name"`
+	Value int    `json:"value"`
 }
 
 // TestObjectParsing.
 func TestObjectParsing(t *testing.T) {
 	// creating fake bytes
 	bytes, _ := json.Marshal(&obj{
-		name:  "amir",
-		value: 60,
+		Name:  "amir",
+		Value: 60,
 	})
 
 	// failed parsing
