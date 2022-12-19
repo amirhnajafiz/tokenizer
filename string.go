@@ -29,7 +29,7 @@ func renderSingleItem(key string, value interface{}, numberOfTabs int) string {
 }
 
 // renderObject converts a json object to string.
-func renderObject(object JsonObject, numberOfTabs, tabUnit, control int) string {
+func renderObject(object JsonObject, numberOfTabs, tabUnit, control int, schema bool) string {
 	var (
 		// tmp stores the result of printing
 		tmp string
@@ -46,14 +46,22 @@ func renderObject(object JsonObject, numberOfTabs, tabUnit, control int) string 
 		obj := object.items[key]
 
 		if obj.valueType == globalType {
-			tmp = fmt.Sprintf("%s\n%s", tmp, renderSingleItem(key, obj.Value(), numberOfTabs+tabUnit))
+			// get the value based on schema or not
+			var value interface{}
+			if schema {
+				value = obj.Type()
+			} else {
+				value = obj.Value()
+			}
+
+			tmp = fmt.Sprintf("%s\n%s", tmp, renderSingleItem(key, value, numberOfTabs+tabUnit))
 		} else if obj.valueType == jsonObjectType {
 			tmp = fmt.Sprintf(
 				"%s\n%s\"%s\": %s",
 				tmp,
 				tabsNext,
 				key,
-				renderObject(obj, numberOfTabs+tabUnit, tabUnit, innerObject),
+				renderObject(obj, numberOfTabs+tabUnit, tabUnit, innerObject, schema),
 			)
 		} else if obj.valueType == jsonArrayType {
 			temp := ""
@@ -64,7 +72,7 @@ func renderObject(object JsonObject, numberOfTabs, tabUnit, control int) string 
 				temp = fmt.Sprintf(
 					"%s\n%s",
 					temp,
-					renderObject(innerObj, numberOfTabs+2*tabUnit, tabUnit, arrayObject),
+					renderObject(innerObj, numberOfTabs+2*tabUnit, tabUnit, arrayObject, schema),
 				)
 
 				// add ',' to the end
@@ -136,5 +144,9 @@ func renderObject(object JsonObject, numberOfTabs, tabUnit, control int) string 
 }
 
 func (j JsonObject) Pretty(space int) string {
-	return renderObject(j, space, space, baseObject)
+	return renderObject(j, space, space, baseObject, false)
+}
+
+func (j JsonObject) Schema() string {
+	return renderObject(j, 2, 2, baseObject, true)
 }

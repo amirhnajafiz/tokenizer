@@ -56,4 +56,6 @@ func main() {
 	}
 
 	fmt.Println(objMap.Pretty(4))
+	fmt.Println()
+	fmt.Println(objMap.Schema())
 }
