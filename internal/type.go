@@ -6,32 +6,30 @@ import (
 
 // JsonObject is a single json structure.
 type JsonObject struct {
-	items map[string]JsonObject
+	items map[string]*JsonObject
 	value interface{}
 }
 
 // newJsonObject generates a new json object.
-func newJsonObject(value interface{}) JsonObject {
-	// create a map variable with nil value
-	var items map[string]JsonObject
-
-	// if object had no value then it must contain a map
-	if value == nil {
-		items = make(map[string]JsonObject)
-	}
-
-	return JsonObject{
-		items: items,
+func newJsonObject(value interface{}) *JsonObject {
+	return &JsonObject{
+		items: make(map[string]*JsonObject),
+		value: value,
 	}
 }
 
 // Get returns an interface.
-func (j *JsonObject) Get(key string) JsonObject {
+func (j *JsonObject) Get(key string) *JsonObject {
 	if item, ok := j.items[key]; !ok {
 		panic(fmt.Errorf("get failed:\n\t%v\n\t%s", ErrKeyNotFound, key))
 	} else {
 		return item
 	}
+}
+
+// set value of json object.
+func (j *JsonObject) set(value interface{}) {
+	j.value = value
 }
 
 // Value returns json object value.
@@ -40,4 +38,4 @@ func (j *JsonObject) Value() interface{} {
 }
 
 // JsonArray is a collection of json objects.
-type JsonArray []JsonObject
+type JsonArray []*JsonObject

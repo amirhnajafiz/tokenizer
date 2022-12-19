@@ -33,5 +33,5 @@ func main() {
 		panic(err)
 	}
 
-	log.Println(objMap["wallet"].(map[string]interface{})["id"])
+	log.Println(objMap)
 }
