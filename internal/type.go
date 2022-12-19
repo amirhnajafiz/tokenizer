@@ -4,15 +4,6 @@ import (
 	"fmt"
 )
 
-// JsonObject is a single json structure.
-type JsonObject struct {
-	key    string
-	jType  string
-	items  map[string]JsonObject
-	value  interface{}
-	values []JsonObject
-}
-
 // newJsonObject generates a new json object.
 func newJsonObject(key string, value interface{}) JsonObject {
 	return JsonObject{
