@@ -5,43 +5,46 @@ import (
 	"reflect"
 )
 
-// ParseObject parses a json object into golang map.
-func ParseObject(bytes []byte) (JsonObject, error) {
-	var jObj map[string]interface{}
+// ParseJsonObject parses a json object into golang map.
+func ParseJsonObject(bytes []byte) (JsonObject, error) {
+	// creating a new map interface
+	var mapInterface map[string]interface{}
 
 	// unmarshalling json into variables
-	if err := json.Unmarshal(bytes, &jObj); err != nil {
+	if err := json.Unmarshal(bytes, &mapInterface); err != nil {
 		return JsonObject{}, ErrJsonObject
 	}
 
-	return parseObj(jObj)
+	return parseObject(mapInterface)
 }
 
-// ParseArray parses a collection of json objects into golang map.
-func ParseArray(bytes []byte) ([]JsonObject, error) {
-	var jArr []interface{}
+// ParseJsonArray parses a collection of json objects into golang map.
+func ParseJsonArray(bytes []byte) ([]JsonObject, error) {
+	// creating a new map interface collection
+	var mapInterfaceArray []interface{}
 
 	// unmarshalling json into variables
-	if err := json.Unmarshal(bytes, &jArr); err != nil {
+	if err := json.Unmarshal(bytes, &mapInterfaceArray); err != nil {
 		return nil, ErrJsonObject
 	}
 
-	return parseArr(jArr)
+	return parseArray(mapInterfaceArray)
 }
 
-func parseObj(obj map[string]interface{}) (JsonObject, error) {
+// parseObject gets a map interface and converts it to json object.
+func parseObject(obj map[string]interface{}) (JsonObject, error) {
 	jObj := newJsonObject("", nil)
 
 	for key := range obj {
 		if reflect.TypeOf(obj[key]).String() == "map[string]interface {}" {
-			tmp, err := parseObj(obj[key].(map[string]interface{}))
+			tmp, err := parseObject(obj[key].(map[string]interface{}))
 			if err != nil {
 				return JsonObject{}, err
 			}
 
 			jObj.items[key] = tmp
 		} else if reflect.TypeOf(obj[key]).String() == "[]interface {}" {
-			tmp, err := parseArr(obj[key].([]interface{}))
+			tmp, err := parseArray(obj[key].([]interface{}))
 			if err != nil {
 				return JsonObject{}, err
 			}
@@ -59,12 +62,14 @@ func parseObj(obj map[string]interface{}) (JsonObject, error) {
 	return jObj, nil
 }
 
-func parseArr(obj []interface{}) ([]JsonObject, error) {
+// parseArray gets a collection of interfaces and converts it to
+// a collection of json objects.
+func parseArray(obj []interface{}) ([]JsonObject, error) {
 	var items []JsonObject
 
 	for _, item := range obj {
 		if reflect.TypeOf(item).String() == "map[string]interface {}" {
-			tmp, err := parseObj(item.(map[string]interface{}))
+			tmp, err := parseObject(item.(map[string]interface{}))
 			if err != nil {
 				return nil, err
 			}

@@ -2,8 +2,9 @@ package internal
 
 import "errors"
 
-// const errors.
+// errors.
 var (
-	ErrJsonObject  = errors.New("input is not JSON object or array")
-	ErrKeyNotFound = errors.New("no matched key")
+	ErrJsonObject     = errors.New("input is not json object or array")
+	ErrKeyNotFound    = errors.New("no matched key found")
+	ErrArrayStructure = errors.New("wrong array structure")
 )
