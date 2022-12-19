@@ -45,21 +45,21 @@ func (j JsonObject) Value() interface{} {
 
 // Pretty returns one pretty json string.
 func (j JsonObject) Pretty() string {
-	return j.buildPretty(0)
+	return fmt.Sprintf("{\t%s\n}", j.buildPretty(1, ""))
 }
 
 // buildPretty builds json string.
-func (j JsonObject) buildPretty(index int) string {
-	tmp := ""
+func (j JsonObject) buildPretty(index int, mainKey string) string {
 	limit := len(j.items)
 
 	if limit == 0 {
-		return fmt.Sprintf("%s: %s", j.key, j.value)
+		return fmt.Sprintf("\"%s\": \"%v\"", j.key, j.value)
 	}
 
+	tmp := ""
 	i := 0
 	for key := range j.items {
-		res := j.items[key].buildPretty(index + 1)
+		res := j.items[key].buildPretty(index+1, key)
 
 		for tab := 0; tab < index; tab++ {
 			res = fmt.Sprintf("\t%s", res)
@@ -73,7 +73,16 @@ func (j JsonObject) buildPretty(index int) string {
 		i++
 	}
 
-	return fmt.Sprintf("{\n\t%s\n}", tmp)
+	if mainKey != "" {
+		tabs := ""
+		for tab := 0; tab < index-1; tab++ {
+			tabs = fmt.Sprintf("\t%s", tabs)
+		}
+
+		return fmt.Sprintf("\"%s\": {\t%s\n%s}", mainKey, tmp, tabs)
+	}
+
+	return tmp
 }
 
 // JsonArray is a collection of json objects.

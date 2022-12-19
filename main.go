@@ -13,7 +13,12 @@ type Object struct {
 }
 
 type Inner struct {
-	Id int `json:"id"`
+	Id   int        `json:"id"`
+	Bank SuperInner `json:"bank"`
+}
+
+type SuperInner struct {
+	Name string `json:"name"`
 }
 
 func main() {
@@ -22,6 +27,9 @@ func main() {
 		Value: 20,
 		Wallet: Inner{
 			Id: 502,
+			Bank: SuperInner{
+				Name: "asp",
+			},
 		},
 	}
 
