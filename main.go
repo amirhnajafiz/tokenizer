@@ -8,40 +8,45 @@ import (
 )
 
 type Object struct {
-	Name     string  `json:"name"`
-	Value    int     `json:"value"`
-	Wallets  []Inner `json:"wallets"`
-	Defaults []int   `json:"defaults"`
+	Name   string `json:"name"`
+	Value  int    `json:"value"`
+	Wallet Inner  `json:"wallet"`
+	// Wallets []Inner `json:"wallets"`
+	//Defaults []int   `json:"defaults"`
 }
 
 type Inner struct {
-	Id   int        `json:"id"`
-	Bank SuperInner `json:"bank"`
+	Id int `json:"id"`
+	//Bank SuperInner `json:"bank"`
 }
 
-type SuperInner struct {
-	Name string `json:"name"`
-}
+//
+//type SuperInner struct {
+//	Name string `json:"name"`
+//}
 
 func main() {
 	obj := &Object{
 		Name:  "amir",
 		Value: 20,
-		Wallets: []Inner{
-			{
-				Id: 20,
-				Bank: SuperInner{
-					"asp",
-				},
-			},
-			{
-				Id: 22,
-				Bank: SuperInner{
-					"asp",
-				},
-			},
+		Wallet: Inner{
+			Id: 90,
 		},
-		Defaults: []int{1, 2, 3},
+		//Wallets: []Inner{
+		//	{
+		//		Id: 20,
+		//		//Bank: SuperInner{
+		//		//	"asp",
+		//		//},
+		//	},
+		//	{
+		//		Id: 22,
+		//		//Bank: SuperInner{
+		//		//	"asp",
+		//		//},
+		//	},
+		//},
+		//Defaults: []int{1, 2, 3},
 	}
 
 	bytes, _ := json.Marshal(obj)
@@ -51,5 +56,5 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println(objMap.Get("wallets").Value().([]internal.JsonObject)[0])
+	fmt.Println(objMap.Pretty(2))
 }
