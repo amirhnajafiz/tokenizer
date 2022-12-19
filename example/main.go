@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/amirhnajafiz/explorer/internal"
+	"github.com/amirhnajafiz/explorer"
 )
 
 type Object struct {
@@ -16,14 +16,13 @@ type Object struct {
 }
 
 type Inner struct {
-	Id int `json:"id"`
-	//Bank SuperInner `json:"bank"`
+	Id   int        `json:"id"`
+	Bank SuperInner `json:"bank"`
 }
 
-//
-//type SuperInner struct {
-//	Name string `json:"name"`
-//}
+type SuperInner struct {
+	Name string `json:"name"`
+}
 
 func main() {
 	obj := &Object{
@@ -35,15 +34,15 @@ func main() {
 		Wallets: []Inner{
 			{
 				Id: 20,
-				//Bank: SuperInner{
-				//	"asp",
-				//},
+				Bank: SuperInner{
+					"asp",
+				},
 			},
 			{
 				Id: 22,
-				//Bank: SuperInner{
-				//	"asp",
-				//},
+				Bank: SuperInner{
+					"asp",
+				},
 			},
 		},
 		Defaults: []int{1, 2, 3},
@@ -51,7 +50,7 @@ func main() {
 
 	bytes, _ := json.Marshal(obj)
 
-	objMap, err := internal.ParseJsonObject(bytes)
+	objMap, err := explorer.ParseJsonObject(bytes)
 	if err != nil {
 		panic(err)
 	}

@@ -1,4 +1,4 @@
-package internal
+package explorer
 
 const (
 	// value types enum
