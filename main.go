@@ -8,11 +8,11 @@ import (
 )
 
 type Object struct {
-	Name   string `json:"name"`
-	Value  int    `json:"value"`
-	Wallet Inner  `json:"wallet"`
-	// Wallets []Inner `json:"wallets"`
-	//Defaults []int   `json:"defaults"`
+	Name     string  `json:"name"`
+	Value    int     `json:"value"`
+	Wallet   Inner   `json:"wallet"`
+	Wallets  []Inner `json:"wallets"`
+	Defaults []int   `json:"defaults"`
 }
 
 type Inner struct {
@@ -32,21 +32,21 @@ func main() {
 		Wallet: Inner{
 			Id: 90,
 		},
-		//Wallets: []Inner{
-		//	{
-		//		Id: 20,
-		//		//Bank: SuperInner{
-		//		//	"asp",
-		//		//},
-		//	},
-		//	{
-		//		Id: 22,
-		//		//Bank: SuperInner{
-		//		//	"asp",
-		//		//},
-		//	},
-		//},
-		//Defaults: []int{1, 2, 3},
+		Wallets: []Inner{
+			{
+				Id: 20,
+				//Bank: SuperInner{
+				//	"asp",
+				//},
+			},
+			{
+				Id: 22,
+				//Bank: SuperInner{
+				//	"asp",
+				//},
+			},
+		},
+		Defaults: []int{1, 2, 3},
 	}
 
 	bytes, _ := json.Marshal(obj)

@@ -1,6 +1,8 @@
 package internal
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // generateTabsString puts tabs next to string.
 func generateTabsString(number int) string {
@@ -45,13 +47,51 @@ func renderObject(object JsonObject, numberOfTabs, tabUnit int, start bool) stri
 
 		if obj.valueType == globalType {
 			tmp = fmt.Sprintf("%s\n%s", tmp, renderSingleItem(key, obj.Value(), numberOfTabs+tabUnit))
-		} else if object.valueType == jsonObjectType {
+		} else if obj.valueType == jsonObjectType {
 			tmp = fmt.Sprintf(
 				"%s\n%s\"%s\": %s",
 				tmp,
 				tabsNext,
 				key,
 				renderObject(obj, numberOfTabs+tabUnit, tabUnit, false),
+			)
+		} else if obj.valueType == jsonArrayType {
+			temp := ""
+
+			for _, innerObj := range obj.value.([]JsonObject) {
+				temp = fmt.Sprintf(
+					"%s\n%s",
+					temp,
+					renderObject(innerObj, numberOfTabs+2*tabUnit, tabUnit, false),
+				)
+			}
+
+			tmp = fmt.Sprintf("%s\n%s\"%s\": [%s%s\n%s]",
+				tmp,
+				tabsNext,
+				key,
+				tabsNext,
+				temp,
+				tabsNext,
+			)
+		} else if obj.valueType == globalArrayType {
+			temp := ""
+
+			for _, innerObj := range obj.value.([]interface{}) {
+				temp = fmt.Sprintf(
+					"%s\n%s",
+					temp,
+					renderSingleItem("", innerObj, numberOfTabs+2*tabUnit),
+				)
+			}
+
+			tmp = fmt.Sprintf("%s\n%s\"%s\": [%s%s\n%s]",
+				tmp,
+				tabsNext,
+				key,
+				tabsNext,
+				temp,
+				tabsNext,
 			)
 		}
 
@@ -64,10 +104,11 @@ func renderObject(object JsonObject, numberOfTabs, tabUnit int, start bool) stri
 		index++
 	}
 
+	// things are different for first object and inner ones
 	if start {
 		return fmt.Sprintf("{%s\n}", tmp)
 	} else {
-		return fmt.Sprintf("{%s\n%s}", tmp, tabsNow)
+		return fmt.Sprintf("%s{%s\n%s}", tabsNow, tmp, tabsNow)
 	}
 }
 

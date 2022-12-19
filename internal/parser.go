@@ -106,7 +106,7 @@ func parseArray(obj []interface{}) ([]JsonObject, bool, error) {
 		}
 	} else {
 		// create a single array
-		tmp := newJsonObject("", jsonArrayType, obj)
+		tmp := newJsonObject("", globalArrayType, obj)
 
 		// no parsing
 		flag = false
