@@ -23,6 +23,17 @@ find every information that you need about your mysterious json object.
 Use ```go get github.com/amirhnajafiz/explorer``` to install this package 
 in your Go project.
 
+## Methods
+
+| Method          | Description                                                                    |      Object      |       Output       |
+|-----------------|--------------------------------------------------------------------------------|:----------------:|:------------------:|
+| ParseJsonObject | Parsing json object.                                                           |    ```none```    |  ```JsonObject```  |
+| ParseJsonArray  | Parsing a collection of json objects.                                          |    ```none```    | ```[]JsonObject``` |
+| Pretty          | Generates a pretty json string.                                                | ```JsonObject``` |    ```string```    |
+| Schema          | Gives the json schema of json object.                                          | ```JsonObject``` |    ```string```    |
+| Get             | Returns a set (key/value) inside json object if exist (panics if it does not). | ```JsonObject``` |  ```JsonObject```  |
+| Value           | Returns the value of a json object (use it when you want the results).         | ```JsonObject``` | ```interface{}```  |
+
 ## Examples
 
 ### Simple example
