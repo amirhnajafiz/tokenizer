@@ -60,12 +60,20 @@ func main() {
 
 	bytes, _ := json.Marshal(obj)
 
+	// notic that with explorer we don't need to give any output types
 	objMap, err := explorer.ParseJsonObject(bytes)
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Println(objMap)
+}
+```
+
+```json
+{
+	"name": "amir",
+	"value": "20"
 }
 ```
 
