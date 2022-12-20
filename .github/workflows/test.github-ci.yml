@@ -19,9 +19,7 @@ jobs:
           go-version: 1.19
       - uses: actions/checkout@v3
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
-        with:
-          version: v1.29
+        uses: reviewdog/action-golangci-lint@v1.1.2
 
   test:
     needs: lint
