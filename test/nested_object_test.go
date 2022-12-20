@@ -33,6 +33,7 @@ func TestNestedObjectParsing(t *testing.T) {
 		t.Error(err)
 	}
 
+	// check validation
 	if int(objMap.Get("value").Get("value").Value().(float64)) != 20 {
 		t.Error(errors.New("parsing nested object failed"))
 	}

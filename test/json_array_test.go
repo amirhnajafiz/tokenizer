@@ -3,8 +3,9 @@ package test
 import (
 	"encoding/json"
 	"errors"
-	"github.com/amirhnajafiz/explorer"
 	"testing"
+
+	"github.com/amirhnajafiz/explorer"
 )
 
 // TestArrayParsing.
