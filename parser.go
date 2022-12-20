@@ -70,7 +70,12 @@ func parseObject(object map[string]interface{}) (JsonObject, error) {
 			}
 		default:
 			// any global value which we don't care about
-			tempJsonObject.items[key] = newJsonObject(key, globalType, object[key])
+			tempJsonObject.items[key] = newJsonObject(
+				key,
+				globalType,
+				object[key],
+				reflect.TypeOf(object[key]).String(),
+			)
 		}
 	}
 
