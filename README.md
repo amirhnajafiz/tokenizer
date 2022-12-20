@@ -7,7 +7,7 @@
 <p align="center">
     <img src="https://img.shields.io/badge/Go-1.19-00ADD8?style=for-the-badge&logo=go" alt="go version" />
     <img src="https://img.shields.io/badge/Version-0.1.0-001122?style=for-the-badge&logo=github" alt="version" />
-    <img src="https://img.shields.io/github/workflow/status/amirhnajafiz/explorer/test.github-ci?label=pipeline&logo=git&style=for-the-badge" alt="pipeline" /><br />
+    <img src="https://img.shields.io/github/actions/workflow/status/amirhnajafiz/explorer/ci.yml?branch=master?label=pipeline&logo=git&style=for-the-badge" alt="pipeline" /><br />
     Parse mysterious json objects with Explorer
 </p>
 
