@@ -6,7 +6,7 @@
 
 <p align="center">
     <img src="https://img.shields.io/badge/Go-1.19-00ADD8?style=for-the-badge&logo=go" alt="go version" />
-    <img src="https://img.shields.io/badge/Version-0.1.0-001122?style=for-the-badge&logo=github" alt="version" /><br />
+    <img src="https://img.shields.io/badge/Version-v0.1.2-001122?style=for-the-badge&logo=github" alt="version" /><br />
     Parse mysterious json objects with Explorer
 </p>
 
