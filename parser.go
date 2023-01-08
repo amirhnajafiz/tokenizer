@@ -48,10 +48,10 @@ func parseObject(object map[string]interface{}) (JsonObject, error) {
 	// iterate over objects
 	for _, key := range keys {
 		// check if object really exists
-		if _, ok := object[key]; !ok {
+		if _, ok := object[key]; !ok || object[key] == nil {
 			continue
 		}
-		
+
 		// check the item type
 		switch reflect.TypeOf(object[key]).String() {
 		case mapInterfaceType:
