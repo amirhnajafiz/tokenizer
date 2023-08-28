@@ -13,12 +13,11 @@ func main() {
 
 	root.AddCommand(
 		internal.SetToken(),
+		internal.GetToken(),
+		internal.DeleteToken(),
+		internal.GetAllTokens(),
 	)
 
-	// todo: Add set token
-	// todo: Add view tokens
-	// todo: Remove token
-	// todo: Add get token
 	// todo: Add encryption
 	// todo: Feat encrypt option
 
