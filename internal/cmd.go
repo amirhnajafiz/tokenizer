@@ -72,7 +72,17 @@ func GetAllTokens() *cobra.Command {
 		Short: "all tokens",
 		Long:  "get all existing tokens",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println(args)
+			if len(args) != 0 {
+				log.Fatal(ErrParams)
+			}
+
+			keys, _ := GetKeys()
+
+			for _, key := range keys {
+				tmp, _ := DeCode(key)
+
+				fmt.Println(tmp)
+			}
 		},
 	}
 }

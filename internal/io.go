@@ -9,3 +9,8 @@ func Set(key, value string) error {
 func Get(key string) (string, error) {
 	return "", nil
 }
+
+// GetKeys in conf
+func GetKeys() ([]string, error) {
+	return nil, nil
+}
