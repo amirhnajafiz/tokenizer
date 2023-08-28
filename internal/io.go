@@ -1,5 +1,12 @@
 package internal
 
+import (
+	"bufio"
+	"log"
+	"os"
+	"strings"
+)
+
 // Set new value
 func Set(key, value string) error {
 	return nil
@@ -7,7 +14,31 @@ func Set(key, value string) error {
 
 // Get existing value
 func Get(key string) (string, error) {
-	return "", nil
+	file, err := os.Open(baseFile)
+	if err != nil {
+		return "", ErrConfFileNotFound
+	}
+
+	defer func(file *os.File) {
+		er := file.Close()
+		if er != nil {
+			log.Println(er)
+		}
+	}(file)
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		parts := strings.Split(scanner.Text(), "/&/")
+		if parts[0] == key {
+			return parts[1], nil
+		}
+	}
+
+	if er := scanner.Err(); er != nil {
+		return "", ErrScanner
+	}
+
+	return "", ErrKeyNotSet
 }
 
 // Remove existing key

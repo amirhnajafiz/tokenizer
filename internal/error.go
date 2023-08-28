@@ -3,5 +3,8 @@ package internal
 import "errors"
 
 var (
-	ErrParams = errors.New("number of params are not accepted")
+	ErrConfFileNotFound = errors.New("conf file not found")
+	ErrParams           = errors.New("number of params are not accepted")
+	ErrKeyNotSet        = errors.New("no token is set for this key")
+	ErrScanner          = errors.New("file scanner failure")
 )
