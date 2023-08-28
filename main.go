@@ -18,7 +18,6 @@ func main() {
 	// todo: Add set token
 	// todo: Add view tokens
 	// todo: Remove token
-	// todo: Update token
 	// todo: Add get token
 	// todo: Add encryption
 	// todo: Feat encrypt option
