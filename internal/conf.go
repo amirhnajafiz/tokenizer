@@ -20,5 +20,7 @@ func CheckFile() bool {
 
 // InitFile creates conf file
 func InitFile() error {
-	return nil
+	_, err := os.Create(baseFile)
+
+	return err
 }
