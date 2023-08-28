@@ -58,9 +58,8 @@ func DeleteToken() *cobra.Command {
 			}
 
 			key, _ := Code(args[0])
-			value := "*"
 
-			_ = Set(key, value)
+			_ = Remove(key)
 		},
 	}
 }
