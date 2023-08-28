@@ -33,7 +33,15 @@ func GetToken() *cobra.Command {
 		Short: "get token",
 		Long:  "get an existing token",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println(args)
+			if len(args) != 1 {
+				log.Fatal(ErrParams)
+			}
+
+			key, _ := Code(args[0])
+			value, _ := Get(key)
+			tmp, _ := DeCode(value)
+
+			fmt.Println(tmp)
 		},
 	}
 }
