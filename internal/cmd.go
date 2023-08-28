@@ -2,6 +2,7 @@ package internal
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/spf13/cobra"
 )
@@ -13,7 +14,14 @@ func SetToken() *cobra.Command {
 		Short: "set token",
 		Long:  "set a new token",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println(args)
+			if len(args) != 2 {
+				log.Fatal(ErrParams)
+			}
+
+			key, _ := Code(args[0])
+			value, _ := Code(args[1])
+
+			_ = Set(key, value)
 		},
 	}
 }

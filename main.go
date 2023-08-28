@@ -11,6 +11,11 @@ import (
 func main() {
 	root := cobra.Command{}
 
+	// create file in set
+	if !internal.CheckFile() {
+		_ = internal.InitFile()
+	}
+
 	root.AddCommand(
 		internal.SetToken(),
 		internal.GetToken(),
