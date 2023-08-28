@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+const token = "/&/"
+
 // Set new value
 func Set(key, value string) error {
 	return nil
@@ -28,7 +30,7 @@ func Get(key string) (string, error) {
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		parts := strings.Split(scanner.Text(), "/&/")
+		parts := strings.Split(scanner.Text(), token)
 		if parts[0] == key {
 			return parts[1], nil
 		}
@@ -64,7 +66,7 @@ func GetKeys() ([]string, error) {
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		parts := strings.Split(scanner.Text(), "/&/")
+		parts := strings.Split(scanner.Text(), token)
 
 		list = append(list, parts[0])
 	}
