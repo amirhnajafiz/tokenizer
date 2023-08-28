@@ -53,7 +53,14 @@ func DeleteToken() *cobra.Command {
 		Short: "delete token",
 		Long:  "delete an existing token",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println(args)
+			if len(args) != 1 {
+				log.Fatal(ErrParams)
+			}
+
+			key, _ := Code(args[0])
+			value := "*"
+
+			_ = Set(key, value)
 		},
 	}
 }
