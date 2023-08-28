@@ -48,5 +48,30 @@ func Remove(key string) error {
 
 // GetKeys in conf
 func GetKeys() ([]string, error) {
-	return nil, nil
+	file, err := os.Open(baseFile)
+	if err != nil {
+		return nil, ErrConfFileNotFound
+	}
+
+	defer func(file *os.File) {
+		er := file.Close()
+		if er != nil {
+			log.Println(er)
+		}
+	}(file)
+
+	list := make([]string, 0)
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		parts := strings.Split(scanner.Text(), "/&/")
+
+		list = append(list, parts[0])
+	}
+
+	if er := scanner.Err(); er != nil {
+		return nil, ErrScanner
+	}
+
+	return list, nil
 }
