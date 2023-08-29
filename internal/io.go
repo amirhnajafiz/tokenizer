@@ -37,7 +37,7 @@ func Set(key, value string) error {
 
 	_ = file.Close()
 
-	exportFile, err := os.OpenFile(baseFile, os.O_CREATE|os.O_WRONLY, 0644)
+	exportFile, err := os.OpenFile(baseFile, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		return ErrConfFileNotFound
 	}
@@ -117,7 +117,7 @@ func Remove(key string) error {
 
 	_ = file.Close()
 
-	exportFile, err := os.OpenFile(baseFile, os.O_CREATE|os.O_WRONLY, 0644)
+	exportFile, err := os.OpenFile(baseFile, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		return ErrConfFileNotFound
 	}
