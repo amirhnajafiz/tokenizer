@@ -2,6 +2,7 @@ package internal
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -45,6 +46,47 @@ func Get(key string) (string, error) {
 
 // Remove existing key
 func Remove(key string) error {
+	file, err := os.Open(baseFile)
+	if err != nil {
+		return ErrConfFileNotFound
+	}
+
+	defer func(file *os.File) {
+		er := file.Close()
+		if er != nil {
+			log.Println(er)
+		}
+	}(file)
+
+	list := make(map[string]string, 0)
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		parts := strings.Split(scanner.Text(), token)
+
+		if parts[0] != key {
+			list[parts[0]] = parts[1]
+		}
+	}
+
+	if er := scanner.Err(); er != nil {
+		return ErrScanner
+	}
+
+	exportFile, err := os.OpenFile(baseFile, os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return ErrConfFileNotFound
+	}
+
+	datawriter := bufio.NewWriter(exportFile)
+
+	for data := range list {
+		_, _ = datawriter.WriteString(fmt.Sprintf("%s%s%s\n", data, token, list[data]))
+	}
+
+	_ = datawriter.Flush()
+	_ = file.Close()
+
 	return nil
 }
 
