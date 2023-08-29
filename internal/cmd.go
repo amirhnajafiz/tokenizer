@@ -18,10 +18,7 @@ func SetToken() *cobra.Command {
 				log.Fatal(ErrParams)
 			}
 
-			key, _ := Code(args[0])
-			value, _ := Code(args[1])
-
-			if err := Set(key, value); err != nil {
+			if err := Set(args[0], args[1]); err != nil {
 				log.Fatalln(err)
 			}
 		},
@@ -39,16 +36,12 @@ func GetToken() *cobra.Command {
 				log.Fatal(ErrParams)
 			}
 
-			key, _ := Code(args[0])
-
-			value, err := Get(key)
+			value, err := Get(args[0])
 			if err != nil {
 				log.Fatalln(err)
 			}
 
-			tmp, _ := DeCode(value)
-
-			fmt.Println(tmp)
+			fmt.Println(value)
 		},
 	}
 }
@@ -64,9 +57,7 @@ func DeleteToken() *cobra.Command {
 				log.Fatal(ErrParams)
 			}
 
-			key, _ := Code(args[0])
-
-			if err := Remove(key); err != nil {
+			if err := Remove(args[0]); err != nil {
 				log.Fatalln(err)
 			}
 		},
@@ -90,9 +81,7 @@ func GetAllTokens() *cobra.Command {
 			}
 
 			for _, key := range keys {
-				tmp, _ := DeCode(key)
-
-				fmt.Println(tmp)
+				fmt.Println(key)
 			}
 		},
 	}
