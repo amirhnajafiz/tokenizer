@@ -2,7 +2,6 @@
 
 ![GitHub top language](https://img.shields.io/github/languages/top/amirhnajafiz/tokenizer)
 ![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/amirhnajafiz/tokenizer)
-![GitHub tag checks state](https://img.shields.io/github/checks-status/amirhnajafiz/tokenizer/v0.1.0)
 ![GitHub release (with filter)](https://img.shields.io/github/v/release/amirhnajafiz/tokenizer)
 
 By using ```Tokenizer``` you can manage your system tokens and credentials. You can
