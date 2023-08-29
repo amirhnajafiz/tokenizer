@@ -12,7 +12,7 @@ const token = "//&&//"
 
 // Set new value
 func Set(key, value string) error {
-	file, err := os.Open(baseFile)
+	file, err := os.Open(getBaseFile())
 	if err != nil {
 		return ErrConfFileNotFound
 	}
@@ -37,7 +37,7 @@ func Set(key, value string) error {
 
 	_ = file.Close()
 
-	exportFile, err := os.OpenFile(baseFile, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
+	exportFile, err := os.OpenFile(getBaseFile(), os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		return ErrConfFileNotFound
 	}
@@ -59,7 +59,7 @@ func Set(key, value string) error {
 
 // Get existing value
 func Get(key string) (string, error) {
-	file, err := os.Open(baseFile)
+	file, err := os.Open(getBaseFile())
 	if err != nil {
 		return "", ErrConfFileNotFound
 	}
@@ -92,7 +92,7 @@ func Get(key string) (string, error) {
 
 // Remove existing key
 func Remove(key string) error {
-	file, err := os.Open(baseFile)
+	file, err := os.Open(getBaseFile())
 	if err != nil {
 		return ErrConfFileNotFound
 	}
@@ -117,7 +117,7 @@ func Remove(key string) error {
 
 	_ = file.Close()
 
-	exportFile, err := os.OpenFile(baseFile, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
+	exportFile, err := os.OpenFile(getBaseFile(), os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		return ErrConfFileNotFound
 	}
@@ -139,7 +139,7 @@ func Remove(key string) error {
 
 // GetKeys in conf
 func GetKeys() ([]string, error) {
-	file, err := os.Open(baseFile)
+	file, err := os.Open(getBaseFile())
 	if err != nil {
 		return nil, ErrConfFileNotFound
 	}
