@@ -27,6 +27,17 @@ export PATH="<path-to-cloned-repository>:$PATH"
 export TK_PATH="<path-to-cloned-repository>"
 ```
 
+## encrypt
+
+Your tokens are being stored in ```conf.txt``` file which is encrypted with
+a private key that you can set by setting a value to ```TK_PRIVATE``` environment
+variable. Make sure to set a 16 byte value.
+
+```text
+7nKyNrGb0Djjyv9UqT4pGaJorDA64QdsfQ==//&&//VcvhC6O4Rm3j3rmMQFMFONWnDHeXus542G4cUydlpcn98cMxyTvBI1KdcJsM
+2AX/7Q/EGjMYO/wE95BESCi2o/f381KmGp63//&&//VDUD18Y4P+aBg88kfV4/pXStObtm3trslVRSprAmpHPEMZGFhwD000KISds=
+```
+
 ## examples
 
 ### set
