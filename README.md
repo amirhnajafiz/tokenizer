@@ -16,7 +16,7 @@ Clone into repository and build ```tokenizer``` by using the following commands:
 ```shell
 git clone https://github.com/amirhnajafiz/tokenizer.git
 cd tokenizer
-go build -o tokenizer
+make build
 ```
 
 In order to use ```tokenizer``` in every place on your system, make sure to the followings to
@@ -43,13 +43,13 @@ variable. Make sure to set a 16 byte value.
 ### set
 
 ```shell
-tokenizer set PWA_TOKEN "h30301j99nn968nskd[[j043jf3fj"
+tokenizer/tk set PWA_TOKEN "h30301j99nn968nskd[[j043jf3fj"
 ```
 
 ### get all
 
 ```shell
-tokenizer all 
+tokenizer/tk all 
 
 PWA_TOKEN
 ```
@@ -57,7 +57,7 @@ PWA_TOKEN
 ### get
 
 ```shell
-tokenizer get PWA_TOKEN
+tokenizer/tk get PWA_TOKEN
 
 h30301j99nn968nskd[[j043jf3fj
 ```
@@ -65,5 +65,5 @@ h30301j99nn968nskd[[j043jf3fj
 ### delete
 
 ```shell
-tokenizer del PWA_TOKEN
+tokenizer/tk del PWA_TOKEN
 ```
