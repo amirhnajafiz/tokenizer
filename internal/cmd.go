@@ -41,6 +41,7 @@ func GetToken() *cobra.Command {
 				log.Fatalln(err)
 			}
 
+			fmt.Println()
 			fmt.Println(value)
 		},
 	}
@@ -79,6 +80,8 @@ func GetAllTokens() *cobra.Command {
 			if err != nil {
 				log.Fatalln(err)
 			}
+
+			fmt.Println()
 
 			for _, key := range keys {
 				fmt.Println(key)
