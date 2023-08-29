@@ -23,9 +23,6 @@ func main() {
 		internal.GetAllTokens(),
 	)
 
-	// todo: Add encryption
-	// todo: Feat encrypt option
-
 	if err := root.Execute(); err != nil {
 		log.Fatal(err)
 	}
