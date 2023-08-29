@@ -23,7 +23,10 @@ func Set(key, value string) error {
 	for scanner.Scan() {
 		parts := strings.Split(scanner.Text(), token)
 
-		list[parts[0]] = parts[1]
+		tmpKey, _ := DeCode(parts[0])
+		tmpValue, _ := DeCode(parts[1])
+
+		list[tmpKey] = tmpValue
 	}
 
 	list[key] = value
@@ -42,7 +45,10 @@ func Set(key, value string) error {
 	datawriter := bufio.NewWriter(exportFile)
 
 	for data := range list {
-		_, _ = datawriter.WriteString(fmt.Sprintf("%s%s%s\n", data, token, list[data]))
+		tmpKey, _ := Code(data)
+		tmpValue, _ := Code(list[data])
+
+		_, _ = datawriter.WriteString(fmt.Sprintf("%s%s%s\n", tmpKey, token, tmpValue))
 	}
 
 	_ = datawriter.Flush()
@@ -68,8 +74,12 @@ func Get(key string) (string, error) {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		parts := strings.Split(scanner.Text(), token)
-		if parts[0] == key {
-			return parts[1], nil
+
+		tmpKey, _ := DeCode(parts[0])
+		tmpValue, _ := DeCode(parts[1])
+
+		if tmpKey == key {
+			return tmpValue, nil
 		}
 	}
 
@@ -93,8 +103,11 @@ func Remove(key string) error {
 	for scanner.Scan() {
 		parts := strings.Split(scanner.Text(), token)
 
-		if parts[0] != key {
-			list[parts[0]] = parts[1]
+		tmpKey, _ := DeCode(parts[0])
+		tmpValue, _ := DeCode(parts[1])
+
+		if tmpKey != key {
+			list[tmpKey] = tmpValue
 		}
 	}
 
@@ -112,7 +125,10 @@ func Remove(key string) error {
 	datawriter := bufio.NewWriter(exportFile)
 
 	for data := range list {
-		_, _ = datawriter.WriteString(fmt.Sprintf("%s%s%s\n", data, token, list[data]))
+		tmpKey, _ := Code(data)
+		tmpValue, _ := Code(list[data])
+
+		_, _ = datawriter.WriteString(fmt.Sprintf("%s%s%s\n", tmpKey, token, tmpValue))
 	}
 
 	_ = datawriter.Flush()
@@ -141,7 +157,9 @@ func GetKeys() ([]string, error) {
 	for scanner.Scan() {
 		parts := strings.Split(scanner.Text(), token)
 
-		list = append(list, parts[0])
+		tmpKey, _ := DeCode(parts[0])
+
+		list = append(list, tmpKey)
 	}
 
 	if er := scanner.Err(); er != nil {
