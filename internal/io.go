@@ -51,13 +51,6 @@ func Remove(key string) error {
 		return ErrConfFileNotFound
 	}
 
-	defer func(file *os.File) {
-		er := file.Close()
-		if er != nil {
-			log.Println(er)
-		}
-	}(file)
-
 	list := make(map[string]string, 0)
 
 	scanner := bufio.NewScanner(file)
@@ -73,6 +66,8 @@ func Remove(key string) error {
 		return ErrScanner
 	}
 
+	_ = file.Close()
+
 	exportFile, err := os.OpenFile(baseFile, os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		return ErrConfFileNotFound
@@ -85,7 +80,7 @@ func Remove(key string) error {
 	}
 
 	_ = datawriter.Flush()
-	_ = file.Close()
+	_ = exportFile.Close()
 
 	return nil
 }
