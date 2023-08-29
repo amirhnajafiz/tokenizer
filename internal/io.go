@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-const token = "/&/"
+const token = "//&&//"
 
 // Set new value
 func Set(key, value string) error {
