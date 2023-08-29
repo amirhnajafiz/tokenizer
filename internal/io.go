@@ -12,6 +12,42 @@ const token = "/&/"
 
 // Set new value
 func Set(key, value string) error {
+	file, err := os.Open(baseFile)
+	if err != nil {
+		return ErrConfFileNotFound
+	}
+
+	list := make(map[string]string, 0)
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		parts := strings.Split(scanner.Text(), token)
+
+		list[parts[0]] = parts[1]
+	}
+
+	list[key] = value
+
+	if er := scanner.Err(); er != nil {
+		return ErrScanner
+	}
+
+	_ = file.Close()
+
+	exportFile, err := os.OpenFile(baseFile, os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return ErrConfFileNotFound
+	}
+
+	datawriter := bufio.NewWriter(exportFile)
+
+	for data := range list {
+		_, _ = datawriter.WriteString(fmt.Sprintf("%s%s%s\n", data, token, list[data]))
+	}
+
+	_ = datawriter.Flush()
+	_ = exportFile.Close()
+
 	return nil
 }
 
