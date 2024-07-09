@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/amirhnajafiz/tokenizer/pkg/stdout"
@@ -48,13 +47,7 @@ func (c CCommands) GetToken() *cobra.Command {
 				log.Fatalln(err)
 			}
 
-			if export {
-				if err := exportToFile(path, value); err != nil {
-					log.Fatalln(err)
-				}
-			} else {
-				fmt.Println(value)
-			}
+			c.Stdout.Print(value)
 		},
 	}
 }
@@ -93,15 +86,7 @@ func (c CCommands) GetAllTokens() *cobra.Command {
 				log.Fatalln(err)
 			}
 
-			if export {
-				if err := exportToFile(path, keys...); err != nil {
-					log.Fatalln(err)
-				}
-			} else {
-				for _, key := range keys {
-					fmt.Println(key)
-				}
-			}
+			c.Stdout.Print(keys...)
 		},
 	}
 }
