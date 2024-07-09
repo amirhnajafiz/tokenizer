@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 	"log"
+	"os/exec"
 
 	"github.com/amirhnajafiz/tokenizer/pkg/stdout"
 
@@ -83,6 +84,11 @@ func (c CCommands) Backup() *cobra.Command {
 		Short: "Backup current tokens",
 		Long:  "Backup decrypted current tokens into a file",
 		Run: func(cmd *cobra.Command, args []string) {
+			sudoer := exec.Command("/bin/sh", "-c", "sudo ls")
+			if _, err := sudoer.Output(); err != nil {
+				log.Fatalf("failed to run backup command: %v\n", err)
+			}
+
 			mapping := make([]string, 0)
 
 			keys, err := GetKeys()
