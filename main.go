@@ -27,9 +27,9 @@ func main() {
 
 	root.AddCommand(
 		internal.SetToken(),
-		internal.GetToken(),
+		internal.GetToken(exportFlag, exportPath),
 		internal.DeleteToken(),
-		internal.GetAllTokens(),
+		internal.GetAllTokens(exportFlag, exportPath),
 	)
 
 	if err := root.Execute(); err != nil {

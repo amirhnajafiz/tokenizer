@@ -26,7 +26,7 @@ func SetToken() *cobra.Command {
 }
 
 // GetToken from conf file
-func GetToken() *cobra.Command {
+func GetToken(export bool, path string) *cobra.Command {
 	return &cobra.Command{
 		Use:   "get",
 		Short: "Get token",
@@ -41,8 +41,13 @@ func GetToken() *cobra.Command {
 				log.Fatalln(err)
 			}
 
-			fmt.Println()
-			fmt.Println(value)
+			if export {
+				if err := exportToFile(path, value); err != nil {
+					log.Fatalln(err)
+				}
+			} else {
+				fmt.Println(value)
+			}
 		},
 	}
 }
@@ -66,7 +71,7 @@ func DeleteToken() *cobra.Command {
 }
 
 // GetAllTokens from conf file
-func GetAllTokens() *cobra.Command {
+func GetAllTokens(export bool, path string) *cobra.Command {
 	return &cobra.Command{
 		Use:   "all",
 		Short: "All tokens",
@@ -81,10 +86,14 @@ func GetAllTokens() *cobra.Command {
 				log.Fatalln(err)
 			}
 
-			fmt.Println()
-
-			for _, key := range keys {
-				fmt.Println(key)
+			if export {
+				if err := exportToFile(path, keys...); err != nil {
+					log.Fatalln(err)
+				}
+			} else {
+				for _, key := range keys {
+					fmt.Println(key)
+				}
 			}
 		},
 	}
