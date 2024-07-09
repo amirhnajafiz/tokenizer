@@ -15,9 +15,9 @@ func main() {
 	std := stdout.Stdout{}
 
 	// create cmd flags
-	root.Flags().StringVarP(&std.Path, "file", "f", "out.txt", "a file path to export the content into it")
-	root.Flags().BoolVarP(&std.File, "output", "o", false, "if set to true, it will export the output data into a file (works on get and all commands)")
-	root.Flags().BoolVarP(&std.Clipboard, "copy", "c", false, "if set to true, it will export the output data into clipboard (works on get command)")
+	root.PersistentFlags().StringVarP(&std.Path, "file", "f", "out.txt", "a file path to export the content into it")
+	root.PersistentFlags().BoolVarP(&std.File, "output", "o", false, "if set to true, it will export the output data into a file (works on get and all commands)")
+	root.PersistentFlags().BoolVarP(&std.Clipboard, "copy", "c", false, "if set to true, it will export the output data into clipboard (works on get command)")
 
 	// create file in set
 	if !internal.CheckFile() {
