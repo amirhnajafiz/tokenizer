@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/amirhnajafiz/tokenizer/pkg/stdout"
@@ -71,6 +72,31 @@ func (c CCommands) GetAllTokens() *cobra.Command {
 			}
 
 			c.Stdout.Print(keys...)
+		},
+	}
+}
+
+// Backup creates a config file with current data, all keys and values init.
+func (c CCommands) Backup() *cobra.Command {
+	return &cobra.Command{
+		Use:   "backup",
+		Short: "Backup current tokens",
+		Long:  "Backup decrypted current tokens into a file",
+		Run: func(cmd *cobra.Command, args []string) {
+			mapping := make([]string, 0)
+
+			keys, err := GetKeys()
+			if err != nil {
+				log.Fatalln(err)
+			}
+
+			for _, key := range keys {
+				if value, err := Get(key); err == nil {
+					mapping = append(mapping, fmt.Sprintf("%s = %s", key, value))
+				}
+			}
+
+			c.Stdout.Print(mapping...)
 		},
 	}
 }
