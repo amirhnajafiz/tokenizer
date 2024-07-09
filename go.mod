@@ -4,7 +4,7 @@ go 1.22
 
 require (
 	github.com/amirhnajafiz/encrypto v0.0.0-20240708150743-c75103dc6476
-	github.com/spf13/cobra v1.7.0
+	github.com/spf13/cobra v1.8.1
 	golang.design/x/clipboard v0.7.0
 )
 
