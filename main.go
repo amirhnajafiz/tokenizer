@@ -35,6 +35,7 @@ func main() {
 		cc.GetToken(),
 		cc.DeleteToken(),
 		cc.GetAllTokens(),
+		cc.Backup(),
 	)
 
 	// execute root cobra command
