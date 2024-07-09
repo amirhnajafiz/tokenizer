@@ -11,8 +11,8 @@ import (
 func SetToken() *cobra.Command {
 	return &cobra.Command{
 		Use:   "set",
-		Short: "set token",
-		Long:  "set a new token",
+		Short: "Set token",
+		Long:  "Set a new token",
 		Run: func(cmd *cobra.Command, args []string) {
 			if len(args) != 2 {
 				log.Fatal(ErrParams)
@@ -29,8 +29,8 @@ func SetToken() *cobra.Command {
 func GetToken() *cobra.Command {
 	return &cobra.Command{
 		Use:   "get",
-		Short: "get token",
-		Long:  "get an existing token",
+		Short: "Get token",
+		Long:  "Get an existing token",
 		Run: func(cmd *cobra.Command, args []string) {
 			if len(args) != 1 {
 				log.Fatal(ErrParams)
@@ -51,8 +51,8 @@ func GetToken() *cobra.Command {
 func DeleteToken() *cobra.Command {
 	return &cobra.Command{
 		Use:   "del",
-		Short: "delete token",
-		Long:  "delete an existing token",
+		Short: "Delete token",
+		Long:  "Delete an existing token",
 		Run: func(cmd *cobra.Command, args []string) {
 			if len(args) != 1 {
 				log.Fatal(ErrParams)
@@ -69,8 +69,8 @@ func DeleteToken() *cobra.Command {
 func GetAllTokens() *cobra.Command {
 	return &cobra.Command{
 		Use:   "all",
-		Short: "all tokens",
-		Long:  "get all existing tokens",
+		Short: "All tokens",
+		Long:  "Get all existing tokens",
 		Run: func(cmd *cobra.Command, args []string) {
 			if len(args) != 0 {
 				log.Fatal(ErrParams)
