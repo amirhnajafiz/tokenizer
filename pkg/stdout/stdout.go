@@ -16,6 +16,8 @@ func (s Stdout) Print(input ...string) error {
 	switch {
 	case s.File:
 		return s.exportToFile()
+	case s.Clipboard:
+		return s.copyToClipboard()
 	default:
 		return s.printToConcole()
 	}

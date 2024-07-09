@@ -20,7 +20,7 @@ func (c CCommands) SetToken() *cobra.Command {
 		Short: "Set token",
 		Long:  "Set a new token",
 		Run: func(cmd *cobra.Command, args []string) {
-			if len(args) != 2 {
+			if len(args) < 2 {
 				log.Fatal(ErrParams)
 			}
 
@@ -38,7 +38,7 @@ func (c CCommands) GetToken() *cobra.Command {
 		Short: "Get token",
 		Long:  "Get an existing token",
 		Run: func(cmd *cobra.Command, args []string) {
-			if len(args) != 1 {
+			if len(args) < 1 {
 				log.Fatal(ErrParams)
 			}
 
