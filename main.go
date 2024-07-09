@@ -4,21 +4,20 @@ import (
 	"log"
 
 	"github.com/amirhnajafiz/tokenizer/internal"
+	"github.com/amirhnajafiz/tokenizer/pkg/stdout"
 
 	"github.com/spf13/cobra"
 )
 
-var (
-	exportPath string
-	exportFlag bool
-)
-
 func main() {
+	// init root cobra command and stdout instance
 	root := cobra.Command{}
+	std := stdout.Stdout{}
 
 	// create cmd flags
-	root.Flags().StringVarP(&exportPath, "path", "p", "out.txt", "a file path to export the content into it")
-	root.Flags().BoolVarP(&exportFlag, "export", "e", false, "if set to true, it will export the output data into a file (works on get and all commands)")
+	root.Flags().StringVarP(&std.Path, "file", "f", "out.txt", "a file path to export the content into it")
+	root.Flags().BoolVarP(&std.File, "output", "o", false, "if set to true, it will export the output data into a file (works on get and all commands)")
+	root.Flags().BoolVarP(&std.Clipboard, "copy", "c", false, "if set to true, it will export the output data into clipboard (works on get command)")
 
 	// create file in set
 	if !internal.CheckFile() {
@@ -31,9 +30,9 @@ func main() {
 	// bind cobra commands to cc commands
 	root.AddCommand(
 		cc.SetToken(),
-		cc.GetToken(exportFlag, exportPath),
+		cc.GetToken(),
 		cc.DeleteToken(),
-		cc.GetAllTokens(exportFlag, exportPath),
+		cc.GetAllTokens(),
 	)
 
 	// execute root cobra command

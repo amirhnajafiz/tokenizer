@@ -33,7 +33,7 @@ func (c CCommands) SetToken() *cobra.Command {
 }
 
 // GetToken from the conf file.
-func (c CCommands) GetToken(export bool, path string) *cobra.Command {
+func (c CCommands) GetToken() *cobra.Command {
 	return &cobra.Command{
 		Use:   "get",
 		Short: "Get token",
@@ -78,7 +78,7 @@ func (c CCommands) DeleteToken() *cobra.Command {
 }
 
 // GetAllTokens from the conf file.
-func (c CCommands) GetAllTokens(export bool, path string) *cobra.Command {
+func (c CCommands) GetAllTokens() *cobra.Command {
 	return &cobra.Command{
 		Use:   "all",
 		Short: "All tokens",
