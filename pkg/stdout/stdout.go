@@ -1,4 +1,4 @@
-package exporter
+package stdout
 
 // Stdout is a struct that is used for displaying
 // the application output in multiple interfaces.

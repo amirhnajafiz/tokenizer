@@ -4,8 +4,15 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/amirhnajafiz/tokenizer/pkg/stdout"
+
 	"github.com/spf13/cobra"
 )
+
+// CCommands is a struct that holds tokenizer main commands.
+type CCommands struct {
+	Stdout *stdout.Stdout
+}
 
 // SetToken into conf file
 func SetToken() *cobra.Command {
