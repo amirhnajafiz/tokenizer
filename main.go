@@ -25,7 +25,9 @@ func main() {
 	}
 
 	// create the internal.ccommands
-	cc := internal.CCommands{}
+	cc := internal.CCommands{
+		Stdout: &std,
+	}
 
 	// bind cobra commands to cc commands
 	root.AddCommand(
