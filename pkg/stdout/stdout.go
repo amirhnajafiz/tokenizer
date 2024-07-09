@@ -13,8 +13,8 @@ type Stdout struct {
 }
 
 // Print method is the main handler of stdout module.
-func (s Stdout) Print(input ...string) error {
-	s.inputs = input
+func (s Stdout) Print(inputs ...string) error {
+	s.inputs = inputs
 
 	// case on existing flags
 	switch {
