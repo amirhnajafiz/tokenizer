@@ -12,7 +12,7 @@ func (s Stdout) exportToFile() error {
 	}
 
 	for _, item := range s.inputs {
-		if _, err := file.Write([]byte(item)); err != nil {
+		if _, err := file.Write([]byte(fmt.Sprintf("%s\n", item))); err != nil {
 			return fmt.Errorf("failed to write content: %v", err)
 		}
 	}
