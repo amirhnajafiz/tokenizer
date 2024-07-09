@@ -6,8 +6,17 @@ type Stdout struct {
 	Clipboard bool
 	File      bool
 	Path      string
+	inputs    []string
 }
 
+// Print method is the main handler of stdout module.
 func (s Stdout) Print(input ...string) error {
-	return nil
+	s.inputs = input
+
+	switch {
+	case s.File:
+		return s.exportToFile()
+	default:
+		return s.printToConcole()
+	}
 }
