@@ -14,8 +14,8 @@ type CCommands struct {
 	Stdout *stdout.Stdout
 }
 
-// SetToken into conf file
-func SetToken() *cobra.Command {
+// SetToken into the conf file.
+func (c CCommands) SetToken() *cobra.Command {
 	return &cobra.Command{
 		Use:   "set",
 		Short: "Set token",
@@ -32,8 +32,8 @@ func SetToken() *cobra.Command {
 	}
 }
 
-// GetToken from conf file
-func GetToken(export bool, path string) *cobra.Command {
+// GetToken from the conf file.
+func (c CCommands) GetToken(export bool, path string) *cobra.Command {
 	return &cobra.Command{
 		Use:   "get",
 		Short: "Get token",
@@ -59,8 +59,8 @@ func GetToken(export bool, path string) *cobra.Command {
 	}
 }
 
-// DeleteToken from conf file
-func DeleteToken() *cobra.Command {
+// DeleteToken from the conf file.
+func (c CCommands) DeleteToken() *cobra.Command {
 	return &cobra.Command{
 		Use:   "del",
 		Short: "Delete token",
@@ -77,8 +77,8 @@ func DeleteToken() *cobra.Command {
 	}
 }
 
-// GetAllTokens from conf file
-func GetAllTokens(export bool, path string) *cobra.Command {
+// GetAllTokens from the conf file.
+func (c CCommands) GetAllTokens(export bool, path string) *cobra.Command {
 	return &cobra.Command{
 		Use:   "all",
 		Short: "All tokens",

@@ -25,13 +25,18 @@ func main() {
 		_ = internal.InitFile()
 	}
 
+	// create the internal.ccommands
+	cc := internal.CCommands{}
+
+	// bind cobra commands to cc commands
 	root.AddCommand(
-		internal.SetToken(),
-		internal.GetToken(exportFlag, exportPath),
-		internal.DeleteToken(),
-		internal.GetAllTokens(exportFlag, exportPath),
+		cc.SetToken(),
+		cc.GetToken(exportFlag, exportPath),
+		cc.DeleteToken(),
+		cc.GetAllTokens(exportFlag, exportPath),
 	)
 
+	// execute root cobra command
 	if err := root.Execute(); err != nil {
 		log.Fatal(err)
 	}
